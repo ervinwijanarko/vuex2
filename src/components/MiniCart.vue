@@ -4,23 +4,24 @@
         left:auto">
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>
-             0 Cart 
+             {{ cartItemCount }}   Cart 
           </template>
-            <div  v-for="item in cart" :key="item.id" > 
+            <div  v-for="item in cart " :key="item.product.id" > 
                 <div class="px-2 d-flex justify-content-between">
                     <div >
-                        <strong>{{ item.title}}</strong>  
-                        <br/> 1 x ${{ item.price }}
+                        <strong><font size="2">{{item.product.title}}</font></strong>  
+                        <br/> <font size="2"> {{ item.quantity }} x ${{ item.product.price }}</font>
                     </div>
                     <div>
-                        <a href="#" class="badge badge-secondary">Remove</a>
+                        <a href="#" @click.prevent="removeCartItem(item.product)" class="badge badge-secondary">Remove</a>
                     </div>
                 </div>
+                  <hr/>
             </div>
-            <hr/>
-                <div class="d-flex justify-content-between">
-                    <span>Total : $23</span>
-                    <a href="#">Clear Cart</a>
+          
+                <div class="d-flex justify-content-between mx-2">
+                    <span>Total : ${{ totalPrice }}</span>
+                    <a href="#" @click.prevent="clearAllCart" v-show="cart != 0"><font size="2">Clear Cart</font></a>
                 </div>  
              
         </b-nav-item-dropdown>
@@ -33,8 +34,26 @@ export default {
 computed: {
     cart(){
         return this.$store.state.cart;
+    },
+    cartItemCount(){
+        return this.$store.getters.cartItemCount;
+    },
+    totalPrice(){
+        return this.$store.getters.totalPrice;
+    }   
+},
+mounted(){ 
+        return this.$store.dispatch('getCartItems'); 
+    },
+methods : {
+    removeCartItem(product){
+        this.$store.dispatch('removeCartItem', product);
+    }, 
+    clearAllCart(){
+        this.$store.dispatch('clearAllCart');
     }
 }
+
 }
 </script>
 
