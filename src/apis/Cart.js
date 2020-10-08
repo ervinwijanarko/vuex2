@@ -1,18 +1,20 @@
  
 import Api from "../apis/Api";
 
+const END_POINT = 'cart'; 
+
 export default{
     all(){
-        return Api.get('cart');
+        return Api.get(END_POINT);
     },
     store(product){
-        return Api.post('cart', product);
+        return Api.post(END_POINT, product);
     },
     delete(id){
-        return Api.delete(`cart/${id}`);
+        return Api.delete(`${END_POINT}/${id}`);
     },
     deleteAll(){
-        return Api.delete('cart');
+        return Api.delete(END_POINT);
     }
 
     

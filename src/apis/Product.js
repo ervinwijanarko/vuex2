@@ -5,7 +5,7 @@ export default{
         return Api.get('products');
     },
     show(id){
-        return Api.get(`product/${id}`);
+        return Api.get(`products/${id}`);
     } 
  
 }
