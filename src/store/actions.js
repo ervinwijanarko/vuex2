@@ -1,40 +1,41 @@
-import axios from "axios";
+ 
+import Product from "../apis/Product";
+import Cart from "../apis/Cart";
 
 export const getProducts = ({ commit }) => {
-    axios.get('http://127.0.0.1:8000/api/products')
-        .then(response =>{
+    Product.all()
+            .then(response =>{
             commit('SET_PRODUCTS', response.data)
         })
 }
 
 export const getProduct = ({ commit }, productId) => {
-    axios.get(`http://127.0.0.1:8000/api/products/${productId}`)
-        .then(response => {
+    Product.show(productId)
+            .then(response => {
             commit('SET_PRODUCT', response.data);
         })
 }
 
 export const addToCart = ({ commit }, { product, quantity }) => {
-     commit('ADD_TO_CART', {product, quantity} ); 
-
-     axios.post('http://127.0.0.1:8000/api/cart',{
+     commit('ADD_TO_CART', {product, quantity} );  
+     Cart.store({
          product_id : product.id,
          quantity : quantity
      })
 }
 
 export const getCartItems = ({ commit }) => {
-    axios.get('http://127.0.0.1:8000/api/cart')
-        .then(response =>{
+        Cart.all()
+            .then(response =>{
             commit('SET_CART_ITEM', response.data)
         })
 }
 
 export const removeCartItem = ({commit}, product) =>{
-    commit('REMOVE_CART_ITEM', product)
-    axios.delete(`http://127.0.0.1:8000/api/cart/${product.id}`)
+        commit('REMOVE_CART_ITEM', product)
+            Cart.delete(product.id)
 }
 export const clearAllCart = ({commit}) =>{
-    commit('CLEAR_ALL_CART')
-    axios.delete(`http://127.0.0.1:8000/api/cart/`)
+        commit('CLEAR_ALL_CART')
+          Cart.delete()
 }

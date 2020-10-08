@@ -39,7 +39,7 @@ export default {
            addToCarts(){
               this.addToCart({
                 product : this.product,
-                quantity : 1
+                quantity : this.quantity
             })
         }
         // addToCart(){
